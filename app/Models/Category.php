@@ -13,4 +13,10 @@ class Category extends Model
         'name',
         'description',
     ];
+
+    // Relasi ke buah
+    public function fruits()
+    {
+        return $this->hasMany(Fruit::class);
+    }
 }

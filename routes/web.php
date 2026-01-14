@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\FruitController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 
@@ -39,15 +40,16 @@ Route::middleware('auth')->group(function () {
     Route::get('/user/dashboard', function () {
         return view('user.dashboard');
     })->name('user.dashboard');
-Route::middleware('admin')->prefix('admin')->name('admin.')->group(function () {
 
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+});
+
+Route::middleware('admin')->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', function () {
         return view('admin.dashboard');
     })->name('dashboard');
 
     Route::resource('categories', CategoryController::class);
-});
-    // Logout Route
-    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+    Route::resource('fruits', FruitController::class);
 });
 

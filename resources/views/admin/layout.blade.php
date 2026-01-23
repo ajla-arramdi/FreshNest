@@ -182,7 +182,7 @@
     <nav class="sidebar-menu">
         <a href="{{ route('admin.dashboard') }}" class="active"><i class="fas fa-home"></i> Dashboard</a>
         <a href="{{ route('admin.categories.index') }}"><i class="fas fa-tags"></i> Kategori</a>
-        <a href="{{ route('admin.fruits.index') }}"><i class="fas fa-apple-alt"></i> Buah</a>
+       
         <a href="{{ route('admin.users.index')}}"><i class="fas fa-box"></i> User Create</a>
         <a href="#"><i class="fas fa-users"></i> User</a>
         <a href="#"><i class="fas fa-shopping-cart"></i> Pesanan</a>

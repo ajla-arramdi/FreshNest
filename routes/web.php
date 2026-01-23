@@ -56,6 +56,5 @@ Route::middleware('admin')->prefix('admin')->name('admin.')->group(function () {
 
     Route::resource('users', UserController::class);
     Route::resource('categories', CategoryController::class);
-    Route::resource('fruits', FruitController::class);
 });
 

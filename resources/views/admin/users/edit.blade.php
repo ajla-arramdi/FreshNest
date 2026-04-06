@@ -1,11 +1,11 @@
 @extends('admin.layouts.app')
 
-@section('title', 'Tambah User')
+@section('title', 'Edit User')
 
 @section('content')
 
 <div class="card">
-    <h3>Tambah User</h3>
+    <h3>Edit User</h3>
 
     @if ($errors->any())
         <ul>
@@ -15,34 +15,34 @@
         </ul>
     @endif
 
-    <form method="POST" action="{{ route('admin.users.store') }}">
+    <form method="POST" action="{{ route('admin.users.update', $user->id) }}">
         @csrf
+        @method('PUT')
 
         <div style="margin-bottom:12px;">
             <label>Nama</label>
-            <input type="text" name="name" class="form-control" value="{{ old('name') }}">
+            <input type="text" name="name" class="form-control" value="{{ old('name', $user->name) }}">
         </div>
 
         <div style="margin-bottom:12px;">
             <label>Email</label>
-            <input type="email" name="email" class="form-control" value="{{ old('email') }}">
+            <input type="email" class="form-control" value="{{ $user->email }}" disabled>
         </div>
 
         <div style="margin-bottom:12px;">
-            <label>Password</label>
+            <label>Password (opsional)</label>
             <input type="password" name="password" class="form-control">
         </div>
 
         <div style="margin-bottom:12px;">
             <label>Role</label>
             <select name="role" class="form-control">
-                <option value="">-- Pilih Role --</option>
-                <option value="user">User</option>
-                <option value="staff">Staff</option>
+                <option value="user" {{ $user->role == 'user' ? 'selected' : '' }}>User</option>
+                <option value="staff" {{ $user->role == 'staff' ? 'selected' : '' }}>Staff</option>
             </select>
         </div>
 
-        <button class="btn btn-primary">Simpan</button>
+        <button class="btn btn-primary">Update</button>
     </form>
 </div>
 

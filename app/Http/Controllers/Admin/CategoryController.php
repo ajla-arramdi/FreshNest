@@ -14,7 +14,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::orderBy('created_at', 'desc')->paginate(10);
+        $categories = Category::latest()->paginate(10);
+
         return view('admin.categories.index', compact('categories'));
     }
 
@@ -31,15 +32,15 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'name' => 'required|string|max:255|unique:categories,name',
             'description' => 'nullable|string'
         ]);
 
-        Category::create($request->all());
+        Category::create($validated);
 
         return redirect()->route('admin.categories.index')
-                         ->with('success', 'Category created successfully.');
+            ->with('success', 'Category berhasil ditambahkan.');
     }
 
     /**
@@ -48,6 +49,7 @@ class CategoryController extends Controller
     public function show(string $id)
     {
         $category = Category::findOrFail($id);
+
         return view('admin.categories.show', compact('category'));
     }
 
@@ -57,6 +59,7 @@ class CategoryController extends Controller
     public function edit(string $id)
     {
         $category = Category::findOrFail($id);
+
         return view('admin.categories.edit', compact('category'));
     }
 
@@ -67,15 +70,20 @@ class CategoryController extends Controller
     {
         $category = Category::findOrFail($id);
 
-        $request->validate([
-            'name' => ['required', 'string', 'max:255', Rule::unique('categories')->ignore($category->id)],
+        $validated = $request->validate([
+            'name' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('categories', 'name')->ignore($category->id)
+            ],
             'description' => 'nullable|string'
         ]);
 
-        $category->update($request->all());
+        $category->update($validated);
 
         return redirect()->route('admin.categories.index')
-                         ->with('success', 'Category updated successfully.');
+            ->with('success', 'Category berhasil diupdate.');
     }
 
     /**
@@ -85,19 +93,15 @@ class CategoryController extends Controller
     {
         $category = Category::findOrFail($id);
 
-        // Check if category has associated products before deleting
-        // Assuming there's a relationship with products table
-        // If the app has product model with category relationship, uncomment below:
-        /*
-        if ($category->products()->count() > 0) {
+        // biar kalo diapus masih dipakai
+        if ($category->subCategories()->count() > 0) {
             return redirect()->route('admin.categories.index')
-                             ->with('error', 'Cannot delete category with associated products.');
+                ->with('error', 'Category tidak bisa dihapus karena masih memiliki sub category.');
         }
-        */
 
         $category->delete();
 
         return redirect()->route('admin.categories.index')
-                         ->with('success', 'Category deleted successfully.');
+            ->with('success', 'Category berhasil dihapus.');
     }
 }

@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Models;
-
+use App\Models\SubCategory;
+use App\Models\Product;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -14,9 +15,8 @@ class Category extends Model
         'description',
     ];
 
-    // Relasi ke buah
-    public function fruits()
-    {
-        return $this->hasMany(Fruit::class);
-    }
+   public function subCategories()
+{
+    return $this->hasMany(SubCategory::class);
+}
 }

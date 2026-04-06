@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\FruitController;
+use App\Http\Controllers\Admin\SubCategoryController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
@@ -53,8 +54,9 @@ Route::middleware('admin')->prefix('admin')->name('admin.')->group(function () {
         return view('admin.dashboard');
     })->name('dashboard');
 
-
+    Route::resource('sub-categories', SubCategoryController::class);
     Route::resource('users', UserController::class);
     Route::resource('categories', CategoryController::class);
+    
 });
 
